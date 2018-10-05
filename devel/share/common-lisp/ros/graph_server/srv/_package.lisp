@@ -1,0 +1,15 @@
+(cl:defpackage graph_server-srv
+  (:use )
+  (:export
+   "GRAPHPATH"
+   "<GRAPHPATH-REQUEST>"
+   "GRAPHPATH-REQUEST"
+   "<GRAPHPATH-RESPONSE>"
+   "GRAPHPATH-RESPONSE"
+   "NODEINFO"
+   "<NODEINFO-REQUEST>"
+   "NODEINFO-REQUEST"
+   "<NODEINFO-RESPONSE>"
+   "NODEINFO-RESPONSE"
+  ))
+
