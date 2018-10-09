@@ -7,6 +7,7 @@
 ;;
 (ros::load-ros-package "actionlib")
 (ros::load-ros-package "actionlib_msgs")
+(ros::load-ros-package "graph_server")
 (ros::load-ros-package "roscpp")
 (ros::load-ros-package "rosgraph_msgs")
 (ros::load-ros-package "std_msgs")

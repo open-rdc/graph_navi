@@ -43,6 +43,10 @@ def run(navi):
     navi=Graph_navigation();
     navi.setPath(start,goal,chekPoint);
     navi.warking();
+
+    result=graph_naviResult()
+    result.result=0
+    naviServer.set_succeeded(result)
     
 if __name__=="__main__":
     args=sys.argv;
