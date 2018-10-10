@@ -1,0 +1,5 @@
+uint64 start
+uint64 goal
+---
+uint64[] path
+float32 lange
