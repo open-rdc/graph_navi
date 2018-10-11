@@ -2,15 +2,19 @@
 import rospy
 import tf
 import time
+import math
 import actionlib
 from actionlib_msgs.msg import*
 from geometry_msgs.msg import PoseStamped
-from move_base_msgs.msg import MoveBaseAction,MoveBaseGoal
+from move_base_msgs.msg import MoveBaseAction,MoveBaseGoal,MoveBaseFeedback
 
 class Warker:
     def __init__(self):
         self.status=0;
+
         self.goal_pose=MoveBaseGoal()
+        self.feedback_pose=MoveBaseFeedback()
+        self.isGoal_flg=False
 
         self.client_moveBase=actionlib.SimpleActionClient('move_base',MoveBaseAction)
         rospy.loginfo("wait waikup move_base")
@@ -43,10 +47,16 @@ class Warker:
         pose.pose.orientation.z=q[2];
         pose.pose.orientation.w=q[3];
         self.warking_to_pose(pose)
+
     def stop(self):
         self.client_moveBase.cancel_goal()
+
     def wait(self):
-        self.client_moveBase.wait_for_result()
+        #self.client_moveBase.wait_for_result()
+        while(not self.isGoal_flg):
+            pass
+        self.isGoal_flg=False;
+
     def restart(self):
         self.warking_to_pose(self.goal_pose)
 
@@ -55,7 +65,17 @@ class Warker:
         return self.client_moveBase.get_state()
 
     def callback_feedback(self,feedback):
-        #rospy.loginfo(feedback);
+        rospy.loginfo(feedback);
+        self.feedback_pose=feedback;
+        
+        dx=self.goal_pose.target_pose.pose.position.x-self.feedback_pose.base_position.pose.position.x
+        dy=self.goal_pose.target_pose.pose.position.y-self.feedback_pose.base_position.pose.position.y
+        dz=self.goal_pose.target_pose.pose.position.z-self.feedback_pose.base_position.pose.position.z
+
+        l=math.sqrt(math.pow(dx,2)+math.pow(dy,2));
+
+        if(l<0.55555):
+            self.isGoal_flg=True;
         return
         
     def warking(self,pose):
@@ -67,6 +87,7 @@ class Warker:
                  return False
         return True
 
+   
 if __name__=='__main__':
     rospy.init_node('warker')
     wrk=Warker();

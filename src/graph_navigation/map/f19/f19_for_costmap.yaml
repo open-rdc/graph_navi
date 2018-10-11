@@ -1,4 +1,4 @@
-image: f19.pgm
+image: f19_for_costmap.pgm
 resolution: 0.050000
 origin: [-25.000000, -25.000000, 0.000000]
 negate: 0

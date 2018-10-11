@@ -1,5 +1,5 @@
 <launch>
-    <arg name="Graph_file" default="/home/norihiro/dev_ws/src/graph_server/src/test_graph.yaml"/>
+    <arg name="Graph_file" default="$(find graph_server)/src/test_graph.yaml"/>
     <param name="graph_file" value="$(arg Graph_file)"/>
 
     <node name="graph_server" pkg="graph_server" type="graph_server_node.py" output="screen"/>
