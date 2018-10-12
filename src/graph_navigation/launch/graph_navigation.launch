@@ -1,5 +1,5 @@
 <launch>
-    <arg name="Graph_file" default="$(find graph_navigation)/graph/Tsukuba_graph_park.yaml"/>
+    <arg name="Graph_file" default="$(find graph_navigation)/graph/Tsukuba_graph_1013.yaml"/>
     <param name="graph_file" value="$(arg Graph_file)"/>
 
     <node name="graph_server" pkg="graph_server" type="graph_server_node.py" output="screen"/>

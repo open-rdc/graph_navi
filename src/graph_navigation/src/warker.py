@@ -65,7 +65,7 @@ class Warker:
         return self.client_moveBase.get_state()
 
     def callback_feedback(self,feedback):
-        rospy.loginfo(feedback);
+        #rospy.loginfo(feedback);
         self.feedback_pose=feedback;
         
         dx=self.goal_pose.target_pose.pose.position.x-self.feedback_pose.base_position.pose.position.x
@@ -74,7 +74,7 @@ class Warker:
 
         l=math.sqrt(math.pow(dx,2)+math.pow(dy,2));
 
-        if(l<0.55555):
+        if(l<3.0):
             self.isGoal_flg=True;
         return
         
