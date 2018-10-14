@@ -4,6 +4,7 @@ import tf
 import time
 import math
 import actionlib
+import time
 from actionlib_msgs.msg import*
 from geometry_msgs.msg import PoseStamped
 from move_base_msgs.msg import MoveBaseAction,MoveBaseGoal,MoveBaseFeedback
@@ -54,7 +55,7 @@ class Warker:
     def wait(self):
         #self.client_moveBase.wait_for_result()
         while(not self.isGoal_flg):
-            pass
+            time.sleep(0.1);
         self.isGoal_flg=False;
 
     def restart(self):
