@@ -10,6 +10,6 @@ c.wait_for_server()
 goal=graph_naviGoal()
 goal.start=0
 goal.goal=35
-goal.checkPoint=[5,36,23,37,30,13]
+goal.checkPoint=[5,36,23,20,37,30,13]
 c.send_goal(goal)
 c.wait_for_result()
