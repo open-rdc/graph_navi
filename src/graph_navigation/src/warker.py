@@ -55,7 +55,8 @@ class Warker:
     def wait(self):
         #self.client_moveBase.wait_for_result()
         while(not self.isGoal_flg):
-            time.sleep(0.1);
+            #time.sleep(0.1);
+            pass;
         self.isGoal_flg=False;
 
     def restart(self):
