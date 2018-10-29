@@ -20,11 +20,11 @@ class graph:
         return
 
     def minimal_path(self,node):
-        print node.start
-        print node.goal
+        #print node.start
+        #print node.goal
         route=nx.dijkstra_path(self.G,node.start,node.goal)
         lange=nx.dijkstra_path_length(self.G,node.start,node.goal)
-        print route
+        #print route
         return {'path':route,'lange':lange }
     def point_to_pose(self,x,y,z):
         pose=PoseStamped()

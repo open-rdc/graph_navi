@@ -13,7 +13,7 @@ class Path_maker:
         rospy.loginfo("wakup")
 
     #任意のチェックポイントを順番に通る経路(通過するnode)を計算
-    def get_path(self,route=[]):
+    def get_path(self,route=[],stop_size=99999999):
         sum_weight=0;
         path=[]
         min_path=rospy.ServiceProxy('/minimal_path',GraphPath)
@@ -23,6 +23,9 @@ class Path_maker:
             conter=min_path(s,g); 
             sum_weight+=conter.lange
             path.extend(conter.path[:-1])
+            if(sum_weight>stop_size):
+                print "braek"
+                break;
         path.append(route[-1])
         return path,sum_weight
 
@@ -51,7 +54,7 @@ class Path_maker:
             route.append(goal)
      
             #指定ルート上での経路と重みを計算
-            [path_list,weight]=self.get_path(route);
+            [path_list,weight]=self.get_path(route,min_weight);
 
             if (min_weight>weight):
                 del min_path_list[:];
