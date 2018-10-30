@@ -1,0 +1,11 @@
+<launch>
+	<arg name="waypoints_file" default="$(find graph_maker)/waypoint_files/Tsukuba_park_CheckPoint.yaml"/>
+	<arg name="edge_file" default="$(find graph_maker)/Edge_files/TsukubaParkEdge.yaml"/>
+	<arg name="graph_file" default="$(find graph_maker)/Graph_files/TsukubaParkGraph.yaml"/>
+	
+	<node name="graph_maker" pkg="graph_maker" type="waypoint_to_graph_node.py">
+		<param name="/waypoints_file" value="$(arg waypoints_file)"/>
+		<param name="/edge_file" value="$(arg edge_file)"/>
+		<param name="/graph_file" value="$(arg graph_file)"/>
+	</node>
+</launch>

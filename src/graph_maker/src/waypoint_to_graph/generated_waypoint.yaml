@@ -1,0 +1,20 @@
+waypoints:
+- point:
+    x: 2
+    y: 6
+    z: 6
+- point:
+    x: 1
+    y: 2
+    z: 3
+- point:
+    x: 2
+    y: 3
+    z: 4
+finish_pose:
+  Pose:
+    pose:
+      position:
+        x: 2
+        y: 6
+        z: 6

@@ -314,6 +314,12 @@ gmock_build_tests:BOOL=OFF
 gmock_main_LIB_DEPENDS:STATIC=general;-lpthread;
 
 //Value Computed by CMake
+graph_maker_BINARY_DIR:STATIC=/home/norihiro/dev_ws/build/graph_maker
+
+//Value Computed by CMake
+graph_maker_SOURCE_DIR:STATIC=/home/norihiro/dev_ws/src/graph_maker
+
+//Value Computed by CMake
 graph_navigation_BINARY_DIR:STATIC=/home/norihiro/dev_ws/build/graph_navigation
 
 //Value Computed by CMake

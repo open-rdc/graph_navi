@@ -117,7 +117,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/norihiro/dev_ws/build/gtest/cmake_install.cmake")
-  include("/home/norihiro/dev_ws/build/control_pad/cmake_install.cmake")
+  include("/home/norihiro/dev_ws/build/graph_maker/cmake_install.cmake")
   include("/home/norihiro/dev_ws/build/graph_server/cmake_install.cmake")
   include("/home/norihiro/dev_ws/build/graph_navigation/cmake_install.cmake")
 
