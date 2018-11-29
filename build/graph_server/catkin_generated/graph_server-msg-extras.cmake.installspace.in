@@ -1,2 +1,0 @@
-set(graph_server_MESSAGE_FILES "")
-set(graph_server_SERVICE_FILES "srv/GraphPath.srv;srv/NodeInfo.srv")

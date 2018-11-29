@@ -1,2 +1,0 @@
-graph_maker:graph_navigation:graph_server
--DCATKIN_DEVEL_PREFIX=/home/norihiro/dev_ws/devel -DCMAKE_INSTALL_PREFIX=/home/norihiro/dev_ws/install -G Unix Makefiles

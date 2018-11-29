@@ -1,8 +1,0 @@
-prefix=/home/norihiro/dev_ws/install
-
-Name: graph_navigation
-Description: Description of graph_navigation
-Version: 0.0.0
-Cflags: -I/home/norihiro/dev_ws/install/include
-Libs: -L/home/norihiro/dev_ws/install/lib 
-Requires: 

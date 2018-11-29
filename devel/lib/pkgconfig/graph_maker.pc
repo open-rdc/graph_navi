@@ -1,8 +1,0 @@
-prefix=/home/norihiro/dev_ws/devel
-
-Name: graph_maker
-Description: Description of graph_maker
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/norihiro/dev_ws/devel/lib 
-Requires: 
