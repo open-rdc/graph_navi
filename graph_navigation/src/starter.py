@@ -10,7 +10,7 @@ c.wait_for_server()
 goal=graph_naviGoal()
 goal.start=1
 goal.goal=8
-goal.checkPoint=[5,6,9]
+goal.checkPoint=[5,6]
 c.send_goal(goal)
 c.wait_for_result()
 print "finiffe"
