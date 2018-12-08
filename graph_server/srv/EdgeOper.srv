@@ -1,0 +1,4 @@
+int32[] edge
+float32 cost
+---
+int32 status
