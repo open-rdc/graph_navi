@@ -86,7 +86,7 @@ nodes:
   - Point:
       point:
         x: 2.0
-        y: 6.0
+        y: 7.5
         z: -0.000888504
 - - 10
   - Point:

@@ -13,8 +13,6 @@ class Guid:
         #経路を生成
         print "make_route"
         [path,route]=self.PathMaker.minimal_path(start,goal,checpoint)
-        print route
-        print path
         #生成した経路を保存
         self.PoseManeger.set_path(route)
         self.PathManeger.set_path(path)
@@ -26,8 +24,10 @@ class Guid:
 
     def next_pose(self):
         #次進むべきPoseを出力(進む)
-        self.PoseManeger.renew()
-        self.PathManeger.renew()
+		if(False==self.PoseManeger.renew() or False== self.PathManeger.renew()):
+			return False;
+		else:
+			return True;
 
 if __name__=="__main__":
     guid=Guid()

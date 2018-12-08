@@ -6,6 +6,7 @@ import warker
 import rospy
 import actionlib
 from graph_navigation.msg import *
+
 class Graph_navigation:
     def __init__(self):
         #インスタンス生成
@@ -20,7 +21,6 @@ class Graph_navigation:
         self.Guid.make_route(start,goal,self.waypoint);
 
     #ゴールに到達した場合：True
-    #チェックポイントに到達した場合：False
     def warking(self):
         while True:
             [node_name,pose]=self.Guid.get_pose();
@@ -28,13 +28,14 @@ class Graph_navigation:
             print pose
 
             self.Warker.warking_to_pose(pose);
-            self.Warker.wait();
+            self.Warker.wait_for_arrival();
 
-            if node_name == self.goal:
-                return True
+            #if node_name == self.goal:
+            #    return True
 
-            self.Guid.next_pose();
-            self.Guid.get_pose()
+            if self.Guid.next_pose()==False:
+				return True;
+            #self.Guid.get_pose()
 
 def run(navi):
     start=navi.start;

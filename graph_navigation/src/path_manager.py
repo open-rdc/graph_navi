@@ -15,7 +15,7 @@ class Path_Maneger:
         return self.Path[self.culent]
 
     def renew(self):
-        if((self.culent+1)>=len(self.Path)):
+        if((self.culent)>len(self.Path)):
             return False
         self.culent+=1;
         return True

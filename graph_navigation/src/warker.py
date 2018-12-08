@@ -1,10 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import rospy
 import tf
 import time
 import math
 import actionlib
-import time
 from actionlib_msgs.msg import*
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Twist
@@ -37,29 +38,27 @@ class Warker:
         rospy.loginfo(self.get_status())
 
     def warking_to_point(self,x,y,z):
-        pose=PoseStamped()
-        goal_pose=MoveBaseGoal()
-        
-        pose.header.frame_id='map'
+        pose=PoseStamped();
+        goal_pose=MoveBaseGoal();     
 
         pose.pose.position.x=x;
         pose.pose.position.y=y;
         pose.pose.position.z=z;
 
         q=tf.transformations.quaternion_from_euler(0,0,0);
-        rospy.loginfo(q)
+
         pose.pose.orientation.x=q[0];
         pose.pose.orientation.y=q[1];
         pose.pose.orientation.z=q[2];
         pose.pose.orientation.w=q[3];
         self.warking_to_pose(pose)
 
-	def resend(self):
+	def resend_goal(self):
 		self.client_moveBase.send_goal(self.goal_pose,feedback_cb=self.callback_feedback);
 		rospy.loginfo("resend goal")
     def stop(self):
         self.client_moveBase.cancel_goal()
-    def wait(self):
+    def wait_for_arrival(self):
         #self.client_moveBase.wait_for_result()
 		while(True):
 			time.sleep(0.2);
@@ -83,7 +82,6 @@ class Warker:
     def callback_feedback(self,feedback):
         #rospy.loginfo(feedback);
         self.feedback_pose=feedback;
-        
         return
         
     def warking(self,pose):
