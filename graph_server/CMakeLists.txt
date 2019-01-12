@@ -59,7 +59,7 @@ add_service_files(
    FILES
    GraphPath.srv
    NodeInfo.srv
-   EdgeOper.srv
+   Edge.srv
  )
 
 ## Generate actions in the 'action' folder

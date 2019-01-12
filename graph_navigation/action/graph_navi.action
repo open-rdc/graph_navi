@@ -4,3 +4,5 @@ int32[] checkPoint
 ---
 int32 result
 ---
+int32 arrivedPoint
+int32 nextPoint
