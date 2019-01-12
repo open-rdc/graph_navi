@@ -9,6 +9,10 @@ from graph_navigation.msg import *
 
 class Graph_navigation:
     def __init__(self):
+        rospy.init_node("graph_navigation");
+        print "waikup"
+        self.naviServer=actionlib.SimpleActionServer("graph_navi",graph_naviAction,self.run,False);
+
         #インスタンス生成
         self.Guid=guid.Guid()
         self.Warker=warker.Warker()
@@ -17,6 +21,9 @@ class Graph_navigation:
         self.waypoint=[];
         self.arrivedPoint=0;
         self.nextPoint=0;
+        self.naviServer.start();
+        rospy.spin();
+
     def setPath(self,start,goal,waypoint=[]):
         #最短経路を求める
         self.nextPoint=start;
@@ -45,25 +52,24 @@ class Graph_navigation:
             return False;
         #self.Guid.get_pose()
 
-def run(navi):
-    start=navi.start;
-    goal=navi.goal;
-    chekPoint=navi.checkPoint;
-    navi=Graph_navigation();
-    navi.setPath(start,goal,chekPoint);
-    Feedback = graph_naviFeedback();
-    while not navi.warking():
-        Feedback.arrivedPoint=navi.arrivedPoint;
-        Feedback.nextPoint=navi.nextPoint;
+    def run(self,navi):
+        start=navi.start;
+        goal=navi.goal;
+        chekPoint=navi.checkPoint;
+        self.setPath(start,goal,chekPoint);
+        Feedback = graph_naviFeedback();
+        while not self.warking():
+            Feedback.arrivedPoint=self.arrivedPoint;
+            Feedback.nextPoint=self.nextPoint;
+            self.naviServer.publish_feedback(Feedback);
         
-    result=graph_naviResult()
-    result.result=0
-    naviServer.set_succeeded(result)
+        result=graph_naviResult()
+        result.result=0
+        self.naviServer.set_succeeded(result)
     
 if __name__=="__main__":
     args=sys.argv;
     rospy.init_node("graph_navigation");
-    print "waikup"
-    naviServer=actionlib.SimpleActionServer("graph_navi",graph_naviAction,run,False);
-    naviServer.start();
+
+    Graph_navigation();
     rospy.spin();
