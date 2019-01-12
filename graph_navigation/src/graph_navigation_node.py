@@ -12,30 +12,38 @@ class Graph_navigation:
         #インスタンス生成
         self.Guid=guid.Guid()
         self.Warker=warker.Warker()
+
         self.goal=0;
-        self.waypoint=[]
+        self.waypoint=[];
+        self.arrivedPoint=0;
+        self.nextPoint=0;
     def setPath(self,start,goal,waypoint=[]):
         #最短経路を求める
+        self.nextPoint=start;
         self.goal=goal;
         self.waypoint=waypoint
         self.Guid.make_route(start,goal,self.waypoint);
 
     #ゴールに到達した場合：True
     def warking(self):
-        while True:
+
+        [node_name,pose]=self.Guid.get_pose();#移動すべきnodeを指定
+        rospy.loginfo("node_name:"+str(node_name))
+
+        self.Warker.warking_to_pose(pose);
+        self.Warker.wait_for_arrival();
+
+        self.arrivedPoint=node_name;
+
+        #終了判定
+        if self.Guid.next_pose()==False:#ゴールに到達した場合
+            return True;
+        else:
             [node_name,pose]=self.Guid.get_pose();
-            rospy.loginfo("node_name:"+str(node_name))
-            print pose
-
-            self.Warker.warking_to_pose(pose);
-            self.Warker.wait_for_arrival();
-
-            #if node_name == self.goal:
-            #    return True
-
-            if self.Guid.next_pose()==False:
-				return True;
-            #self.Guid.get_pose()
+            self.nextPoint=node_name;#次移動すべきnode
+            rospy.loginfo("Arrived="+str(self.arrivedPoint)+"\t"+"Next="+str(self.nextPoint))
+            return False;
+        #self.Guid.get_pose()
 
 def run(navi):
     start=navi.start;
@@ -43,8 +51,11 @@ def run(navi):
     chekPoint=navi.checkPoint;
     navi=Graph_navigation();
     navi.setPath(start,goal,chekPoint);
-    navi.warking();
-
+    Feedback = graph_naviFeedback();
+    while not navi.warking():
+        Feedback.arrivedPoint=navi.arrivedPoint;
+        Feedback.nextPoint=navi.nextPoint;
+        
     result=graph_naviResult()
     result.result=0
     naviServer.set_succeeded(result)

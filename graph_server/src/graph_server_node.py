@@ -16,7 +16,7 @@ class graph:
 		rospy.init_node("graph_server")
 		self.srv_minimal_path=rospy.Service("minimal_path",GraphPath,self.minimal_path);
 		self.srv_get_node_info=rospy.Service("get_node_info",NodeInfo,self.get_node_data);
-		self.srv_remove_edge=rospy.Service("remove_edge",Edger,self.remove_edge_srv);
+		self.srv_remove_edge=rospy.Service("remove_edge",Edge,self.remove_edge_srv);
 		rospy.spin();
 		
 		return
