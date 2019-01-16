@@ -13,6 +13,7 @@ from move_base_msgs.msg import MoveBaseAction,MoveBaseGoal,MoveBaseFeedback
 
 class Warker:
     def __init__(self):
+		self.is_warking=False;
 		self.status=0;
 		self.last_move_time=time.time();
 		self.goal_pose=MoveBaseGoal()
@@ -53,14 +54,16 @@ class Warker:
         pose.pose.orientation.w=q[3];
         self.warking_to_pose(pose)
 
-	def resend_goal(self):
-		self.client_moveBase.send_goal(self.goal_pose,feedback_cb=self.callback_feedback);
-		rospy.loginfo("resend goal")
+    def resend_goal(self):
+	self.client_moveBase.send_goal(self.goal_pose,feedback_cb=self.callback_feedback);
+	rospy.loginfo("resend goal")
     def stop(self):
-        self.client_moveBase.cancel_goal()
+        self.is_warking=False;
+        rospy.loginfo("____________________________________stop");
+        self.client_moveBase.cancel_goal();
     def wait_for_arrival(self):
         #self.client_moveBase.wait_for_result()
-		while(True):
+		while(self.get_status()==1 or self.get_status()==0):
 			time.sleep(0.2);
 			dx=self.goal_pose.target_pose.pose.position.x-self.feedback_pose.base_position.pose.position.x
 			dy=self.goal_pose.target_pose.pose.position.y-self.feedback_pose.base_position.pose.position.y
@@ -68,13 +71,16 @@ class Warker:
 			
 			l=math.sqrt(math.pow(dx,2)+math.pow(dy,2));
 			if (l<1.0):
-				break;
-			if(time.time()-self.last_move_time>5):
+				return True;
+			if(time.time()-self.last_move_time>5.0):
 				self.warking_to_pose(self.goal_pose.target_pose);
 				rospy.loginfo("resend");
 			rospy.loginfo(time.time()-self.last_move_time>5);
+			if(not(self.get_status()==1 or self.get_status()==0)):
+				return False;
+				
     def restart(self):
-		self.warking_to_pose(self.goal_pose)
+	self.warking_to_pose(self.goal_pose)
 
     def get_status(self):
         return self.client_moveBase.get_state()

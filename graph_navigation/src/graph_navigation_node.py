@@ -6,11 +6,13 @@ import warker
 import rospy
 import actionlib
 from graph_navigation.msg import *
-
+import time
+from std_msgs.msg import String
 class Graph_navigation:
     def __init__(self):
         rospy.init_node("graph_navigation");
         print "waikup"
+        rospy.Subscriber("stop",String,self.stop_CB);
         self.naviServer=actionlib.SimpleActionServer("graph_navi",graph_naviAction,self.run,False);
 
         #インスタンス生成
@@ -22,7 +24,6 @@ class Graph_navigation:
         self.arrivedPoint=0;
         self.nextPoint=0;
         self.naviServer.start();
-        rospy.spin();
 
     def setPath(self,start,goal,waypoint=[]):
         #最短経路を求める
@@ -38,7 +39,8 @@ class Graph_navigation:
         rospy.loginfo("node_name:"+str(node_name))
 
         self.Warker.warking_to_pose(pose);
-        self.Warker.wait_for_arrival();
+        if False==self.Warker.wait_for_arrival():
+		return True;
 
         self.arrivedPoint=node_name;
 
@@ -56,6 +58,7 @@ class Graph_navigation:
         start=navi.start;
         goal=navi.goal;
         chekPoint=navi.checkPoint;
+	rospy.loginfo("start_navi")
         self.setPath(start,goal,chekPoint);
         Feedback = graph_naviFeedback();
         while not self.warking():
@@ -65,11 +68,18 @@ class Graph_navigation:
         
         result=graph_naviResult()
         result.result=0
+        rospy.loginfo("graph_navi_finish");
         self.naviServer.set_succeeded(result)
-    
+
+    def stop_CB(self,msg):
+	self.Warker.stop();
+    def restart(self):
+        self.Warker.restart();
+
 if __name__=="__main__":
     args=sys.argv;
     rospy.init_node("graph_navigation");
 
     Graph_navigation();
+ 
     rospy.spin();
