@@ -90,7 +90,7 @@ class Warker:
         self.warking_to_pose(pose);
 
         while 1:
-            status=self.get_status();
+            status=self.client_moveBase.get_state();
             if status==4:
                  return False
         return True

@@ -9,7 +9,7 @@ c=actionlib.SimpleActionClient('graph_navi',graph_naviAction);
 c.wait_for_server()
 goal=graph_naviGoal()
 goal.start=0
-goal.goal=7
-goal.checkPoint=[5,6]
+goal.goal=4
+goal.checkPoint=[3]
 c.send_goal(goal)
 c.wait_for_result()
