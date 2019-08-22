@@ -4,3 +4,6 @@ int32[] checkPoint
 ---
 int32 result
 ---
+int32 curent_node
+int32 next_node
+

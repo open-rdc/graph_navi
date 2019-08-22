@@ -22,23 +22,29 @@ class Graph_navigation:
         self.waypoint=waypoint
         self.Guid.make_route(start,goal,self.waypoint);
 
-    #ゴールに到達した場合：True
+    #ゴールに到達した場合:0
+    #移動中の場合        :1
+    #経由点に到達した場合:2
+    #nodeに到着した場合  :3
     def warking(self):
         #次移動するべきノードへ移動する
-        [node_name,pose]=self.Guid.get_pose();#次の移動箇所
+        [node_name,pose]=self.Guid.get_pose();#移動箇所を取得
         rospy.loginfo("node_name:"+str(node_name))
-        print pose
-        self.Warker.warking_to_pose(pose);#poseまで移動開始
-
+        if self.Warker.get_status()==1:
+            self.Warker.warking_to_pose(pose);#poseまで移動開始
+        temp=1;#戻り値
         if True==self.Warker.wark():#目的ノードに到着している場合
             #最終目的地(goal)に到着
             if node_name == self.goal:
-                return True
+                temp=0;
+            elif node_name in self.waypoint:
+                temp=2;
             else:
                 #次の目的地を指定
                 self.Guid.next_pose();
                 #self.Guid.get_pose();
-        return False;
+                temp=3;
+        return temp;
 
     def stop(self):
         #move_baseを終了させる
@@ -52,11 +58,23 @@ def run(navi):
     goal=navi.goal;
     chekPoint=navi.checkPoint;
     navi=Graph_navigation();
+    result=graph_naviResult();
     navi.setPath(start,goal,chekPoint);
-    navi.warking();
+    #ロボットの移動
+    while True:
+        if True: #何らかの判断で停止させる。 
+            #通常移動(目的地まで移動)
+            temp=navi.warking();
+            if temp==0:#ゴールに到着
+                break;
+            elif temp==2:#チェックポイントに到着
+                pass;
+            elif temp==3:#ノードに到達
+                pass;
+        else:
+            #停止
+            navi.stop();
 
-    result=graph_naviResult()
-    result.result=0
     naviServer.set_succeeded(result)
     
 if __name__=="__main__":
