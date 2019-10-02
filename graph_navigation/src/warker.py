@@ -69,7 +69,6 @@ class Warker:
         dz=self.goal_pose.target_pose.pose.position.z-self.feedback_pose.base_position.pose.position.z
         l=math.sqrt(math.pow(dx,2)+math.pow(dy,2));
         if (l<1.0):
-            self.stop();
             return True;
         if(time.time()-self.last_move_time>5):
             self.warking_to_pose(self.goal_pose.target_pose);
@@ -104,7 +103,6 @@ if __name__=='__main__':
     wrk=Warker();
     wrk.get_status();
     wrk.warking_to_point(6.5,4.43,0.0);
-    wrk.wait();
     """
     while(wrk.get_status()!=3):
         

@@ -26,8 +26,12 @@ class Guid:
 
     def next_pose(self):
         #次進むべきPoseを出力(進む)
-        self.PoseManeger.renew()
+        temp=self.PoseManeger.renew()
         self.PathManeger.renew()
+        if temp==False:
+            return False;
+        return True;
+            
 
 if __name__=="__main__":
     guid=Guid()

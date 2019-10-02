@@ -8,12 +8,12 @@ rospy.init_node("graph_navi_starter");
 c=actionlib.SimpleActionClient('graph_navi',graph_naviAction);
 c.wait_for_server()
 goal=graph_naviGoal()
-goal.start=0
-goal.goal=4
+goal.start=1
+goal.goal=11
 goal.checkPoint=[3]
 c.send_goal(goal)
 c.wait_for_result()
-
+"""
 class Graph_navigation:
     def __init__(self):
         rospy.init_node("graph_navi_starter");
@@ -33,3 +33,4 @@ class Graph_navigation:
         pass;
     def cancel(self);
         pass;
+"""
