@@ -5,6 +5,7 @@ import guid
 import warker
 import rospy
 import actionlib
+from std_msgs.msg import Int16
 from graph_navigation.msg import *
 class Graph_navigation:
     def __init__(self):
@@ -49,7 +50,7 @@ class Graph_navigation:
                 temp=0;
         else:
             temp=1;
-        print "warking temp="+str(temp)
+        #print "warking temp="+str(temp)
         return temp;
 
     def stop(self):
@@ -60,7 +61,15 @@ class Graph_navigation:
         #残ってるチェックポイントを取得
         #取得したEdgeの情報を戻り値として返す。
         return next_node[0];
+flag=0
+def callback(msg):
+    global flag;
+    flag=1
+    print "getflag!"
 def run(navi):
+    global flag;
+    cmd_sub=rospy.Subscriber("cmd_stop",Int16,callback)
+    #移動先、チェックポイントの設定
     start=navi.start;
     goal=navi.goal;
     chekPoint=navi.checkPoint;
@@ -68,10 +77,11 @@ def run(navi):
     result=graph_naviResult();
     navi.setPath(start,goal,chekPoint);
     navi.start();
+    r=rospy.Rate(10)
     #ロボットの移動
     while True:
         #移動し続けるかの判断
-        if True: #何らかの判断で停止させる。 
+        if flag==0: #何らかの判断で停止させる。 
             #通常移動(目的地まで移動)
             temp=navi.warking();
             if temp==0:#ゴールに到着
@@ -88,13 +98,22 @@ def run(navi):
         else:
             #停止
             navi.stop();
+            break;
+        print str(flag)+"=flag";
+        r.sleep()
     print("Finish graph_navi")
+    flag=0;
     naviServer.set_succeeded(result)
     
 if __name__=="__main__":
     args=sys.argv;
     rospy.init_node("graph_navigation");
     print "waikup"
+
+    #コマンド受信用subscliber
+    #停止した場合Resultを通じ現在向かってるノード、残りのチェックポイントとゴールを送信
+    #cmd_sub=rospy.Subscriber("cmd_stop",int,callback)
+
     naviServer=actionlib.SimpleActionServer("graph_navi",graph_naviAction,run,False);
     naviServer.start();
     rospy.spin();

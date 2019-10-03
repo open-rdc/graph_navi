@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#coding:UTF-8
 import rospy
 import actionlib
 
@@ -13,6 +14,7 @@ goal.goal=11
 goal.checkPoint=[3]
 c.send_goal(goal)
 c.wait_for_result()
+
 """
 class Graph_navigation:
     def __init__(self):
@@ -24,11 +26,13 @@ class Graph_navigation:
         rospy.spin();
     def feedback_CB(self,feedback):
         self.feedback=feedback;
+        #次の移動先ノードを取得
+        #チェックポイントに到着した場合、残りのチャックポイントの取得
 
     def start(self):
-        pass;
+        self.graph_navi_client.send_goal();
     def pause(self):
-        pass;
+        #
     def restart(self):
         pass;
     def cancel(self);
