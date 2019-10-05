@@ -16,6 +16,7 @@ class Graph_navigation:
         self.goal=0;
         self.waypoint=[]
         self.node_name=0
+        self.edge=[None,None];
 
     #startからgoalまでの最短経路を設定
     def setPath(self,start,goal,waypoint=[]):
@@ -23,12 +24,15 @@ class Graph_navigation:
         self.goal=goal;
         self.waypoint=waypoint
         self.Guid.make_route(start,goal,self.waypoint);
+    #次のノードへ移動する
     def start(self):
         #次移動するべきノードへ移動する
-        
         [self.node_name,pose]=self.Guid.get_pose();#移動箇所を取得
         rospy.loginfo("node_name:"+str(self.node_name))
         self.Warker.warking_to_pose(pose);#poseまで移動開始
+        #移動中のEdgeの情報を更新
+        self.edge[1]=self.edge[0];
+        self.edge[0]=self.node_name;
 
     #ゴールに到達した場合:0
     #移動中の場合        :1
@@ -36,21 +40,20 @@ class Graph_navigation:
     #nodeに到着した場合  :3
     def warking(self):
         if True==self.Warker.wark():#目的ノードに到着している場合
-            #最終目的地(goal)に到着
-            #if self.node_name == self.goal:
-            #    temp=0;
             if self.node_name in self.waypoint:
                 #self.Guid.next_pose();
+                self.waypoint.remove(self.node_name);
                 temp=2;
             else:
                 #次の目的地を指定
                 #self.Guid.next_pose();
                 temp=3;
+            #目的地(ゴール)へ到着した時
             if self.Guid.next_pose()==False:
                 temp=0;
         else:
             temp=1;
-        #print "warking temp="+str(temp)
+        print self.edge;
         return temp;
 
     def stop(self):
@@ -75,7 +78,8 @@ def run(navi):
     chekPoint=navi.checkPoint;
     navi=Graph_navigation();
     result=graph_naviResult();
-    navi.setPath(start,goal,chekPoint);
+    feedback=graph_naviFeedback();
+    navi.setPath(start,goal,list(chekPoint));
     navi.start();
     r=rospy.Rate(10)
     #ロボットの移動
@@ -88,18 +92,26 @@ def run(navi):
                 print "end"
                 navi.stop()
                 break;
-            elif temp==2:#チェックポイントに到着
-                navi.start();
-                pass;
-            elif temp==3:#ノードに到達
-                navi.start();
-                pass;
+            if not temp==1:
+                if temp==2:#チェックポイントに到着
+                    feedback.isCheckPoint=1;
+                    navi.start();
+                    pass;
+                elif temp==3:#ノードに到達
+                    feedback.isCheckPoint=0;
+                    navi.start();
+                    pass;
+                feedback.curent_node=navi.edge[1]
+                feedback.next_node=navi.edge[0]
+                feedback.Unreachable=navi.waypoint
+                naviServer.publish_feedback(feedback)
+                result.Unreachable=navi.waypoint
+
 
         else:
             #停止
             navi.stop();
             break;
-        print str(flag)+"=flag";
         r.sleep()
     print("Finish graph_navi")
     flag=0;

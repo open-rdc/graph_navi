@@ -1,0 +1,5 @@
+uint64 start
+uint64 goal
+---
+float64 weight
+int32 result

@@ -3,7 +3,10 @@ int32 goal
 int32[] checkPoint
 ---
 int32 result
+int32[] Unreachable
 ---
 int32 curent_node
 int32 next_node
+int8 isCheckPoint
+int32[] Unreachable
 
