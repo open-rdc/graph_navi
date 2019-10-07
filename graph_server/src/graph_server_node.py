@@ -16,21 +16,23 @@ class graph:
         rospy.init_node("graph_server")
         self.srv_minimal_path=rospy.Service("minimal_path",GraphPath,self.minimal_path);
         self.srv_get_node_info=rospy.Service("get_node_info",NodeInfo,self.get_node_data);
-        #self.srv_get_wiget=rospy.Service("get_edge_weigth",NodeInfo,self.get_weight);
-        #self.srv_set_wiget=rospy.Service("set_edge_weigth",setWeigth,self.set_weight);
+        self.srv_get_wiget=rospy.Service("get_edge_weigth",GetWeigth,self.get_weight);
+        self.srv_set_wiget=rospy.Service("set_edge_weigth",SetWeigth,self.set_weight);
         rospy.spin();
         return
-    """
     def get_weight(self,msg):
-        weigth=nx.dijkstra_path_length(self.G,msg.start,msg.goal)
+        try:
+            weigth=nx.dijkstra_path_length(self.G,msg.start,msg.goal);
+        except:
+            print("error in graph_server");
         return {'weight':weigth,'result':0}
     def set_weight(self,msg):
         try:
             self.G.remove_edge(msg.start,msg.goal);
             self.Gadd_edge(msg.start,msg.goal,weight=msg.weigth);
         except:
-            print("error in grap_server");
-    """
+            print("error in graph_server");
+        return {'result':1}
     def minimal_path(self,node):
         #print node.start
         #print node.goal
