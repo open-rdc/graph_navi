@@ -9,7 +9,7 @@ project(Graph_navi_with_detour)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   graph_navigation
-  graph_server
+##  graph_server
   roscpp
   rospy
   std_msgs
@@ -49,11 +49,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
+add_message_files(
+   FILES
 #   Message1.msg
-#   Message2.msg
-# )
+   graph_navi.msg
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(

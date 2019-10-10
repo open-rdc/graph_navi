@@ -14,24 +14,20 @@ class graph:
         gFile=Graph_file();
         self.G=gFile.read_file(file_name);
         rospy.init_node("graph_server")
-        self.srv_minimal_path=rospy.Service("minimal_path",GraphPath,self.minimal_path);
-        self.srv_get_node_info=rospy.Service("get_node_info",NodeInfo,self.get_node_data);
-        self.srv_get_wiget=rospy.Service("get_edge_weigth",GetWeigth,self.get_weight);
-        self.srv_set_wiget=rospy.Service("set_edge_weigth",SetWeigth,self.set_weight);
+        self.srv_minimal_path  = rospy.Service("minimal_path",GraphPath,self.minimal_path);
+        self.srv_get_node_info = rospy.Service("get_node_info",NodeInfo,self.get_node_data);
+        self.srv_get_weight     = rospy.Service("get_edge_weight",GetWeight,self.get_weight);
+        self.srv_set_weight     = rospy.Service("set_edge_weight",SetWeight,self.set_weight);
         rospy.spin();
         return
     def get_weight(self,msg):
-        try:
-            weigth=nx.dijkstra_path_length(self.G,msg.start,msg.goal);
-        except:
-            print("error in graph_server");
-        return {'weight':weigth,'result':0}
+        weight=nx.dijkstra_path_length(self.G,msg.start,msg.goal);
+        rospy.loginfo("call get_weight. "+"edge=("+str(msg.start)+" "+str(msg.goal))
+        return {'weight':weight,'result':0}
     def set_weight(self,msg):
-        try:
-            self.G.remove_edge(msg.start,msg.goal);
-            self.Gadd_edge(msg.start,msg.goal,weight=msg.weigth);
-        except:
-            print("error in graph_server");
+        self.G.remove_edge(msg.start,msg.goal);
+        self.G.add_edge(msg.start,msg.goal,weight=msg.weight);
+        rospy.loginfo("call set_weight. "+"edge=("+str(msg.start)+" "+str(msg.goal)+")weight="+str(msg.weight))
         return {'result':1}
     def minimal_path(self,node):
         #print node.start

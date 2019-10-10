@@ -71,7 +71,7 @@ def callback(msg):
     print "getflag!"
 def run(navi):
     global flag;
-    cmd_sub=rospy.Subscriber("cmd_stop",Int16,callback)
+    cmd_sub=rospy.Subscriber("graph_navigation/cmd_stop",Int16,callback)
     #移動先、チェックポイントの設定
     start=navi.start;
     goal=navi.goal;
@@ -91,6 +91,7 @@ def run(navi):
             if temp==0:#ゴールに到着
                 print "end"
                 navi.stop()
+                result.result=0;
                 break;
             if not temp==1:
                 if temp==2:#チェックポイントに到着
@@ -111,6 +112,7 @@ def run(navi):
         else:
             #停止
             navi.stop();
+            result.result=1
             break;
         r.sleep()
     print("Finish graph_navi")
