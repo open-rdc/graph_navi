@@ -1,8 +1,15 @@
 <launch>
     <arg name="graph_file" default="$(find graph_navigation)/graph/test_graph.yaml"/>
-    <param name="graph_file" value="$(arg graph_file)"/>
+    <arg name="edge_rate" default="graph_navi_detour/edge_rate"/>
 
-    <node name="graph_server" pkg="graph_server" type="graph_server_node.py" output="screen"/>
+    <param name="graph_file" value="$(arg graph_file)"/>
+    <!--グラフサーバ立ち上げ-->
+    <node name="graph_server" pkg="graph_server" type="graph_server_node.py" output="screen">
+    </node>
+    <!--グラフナビゲーションの起動-->
     <node name="graph_navigation" pkg="graph_navigation" type="graph_navigation_node.py" output="screen"/>
-    <node name="graph_navi_detour" pkg="Graph_navi_with_detour" type="graph_navi_detour.py" output="screen"/>
+    <!--迂回経路生成系-->
+    <node name="graph_navi_detour" pkg="Graph_navi_with_detour" type="graph_navi_detour.py" output="screen">
+        <remap from="graph_navi_detour/edge_rate" to="$(arg edge_rate)"/>
+    </node>
 </launch>

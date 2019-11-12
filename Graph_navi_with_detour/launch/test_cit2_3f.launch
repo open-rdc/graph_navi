@@ -1,0 +1,9 @@
+<launch>
+    <node name="joy_node" pkg="joy" type="joy_node"/>
+    <node name="joy_trigger" pkg="Graph_navi_with_detour" type="joy_trigger.py">
+        <remap from="cost" to="graph_navi_detour/edge_rate"/>
+    </node>
+    <include file="$(find Graph_navi_with_detour)/launch/graph_navi_with_detour.launch">
+        <arg name="edge_rate" default="graph_navi_detour/edge_rate"/>
+    </include>
+</launch>

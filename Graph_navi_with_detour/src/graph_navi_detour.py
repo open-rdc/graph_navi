@@ -14,7 +14,7 @@ class graph_navi_detour:
         rospy.init_node("graph_navi_detour");
         rospy.Subscriber("graph_navi_detour/edge_rate",Float64,self.get_cost_score);
         rospy.Subscriber("graph_navi_detour/start",graph_navi_start,self.start);
-        self.graph_navi_stoper=rospy.Publisher("/graph_navigation/cmd_stop",Int16);
+        self.graph_navi_stoper=rospy.Publisher("/graph_navigation/cmd_stop",Int16,queue_size=1);
         #graph_server系のサービスが使えるまで待機
         rospy.loginfo("wait graph_server")
         rospy.wait_for_service('/minimal_path');

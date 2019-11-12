@@ -1,6 +1,6 @@
 <launch>
-	<arg name="waypoints_file" default="$(find graph_maker)/waypoint_files/Tsudanuma_waypoints.yaml"/>
-	<arg name="edge_file" default="$(find graph_maker)/Edge_files/TsudanumaEdge.yaml"/>
+	<arg name="waypoints_file" default="$(find graph_maker)/waypoint_files/temp.yaml"/>
+	<arg name="edge_file" default="$(find graph_maker)/Edge_files/cit2_3f_edge.yaml"/>
 	<arg name="graph_file" default="$(find graph_maker)/Graph_files/TsudanumaGraph.yaml"/>
 	
 	<node name="graph_maker" pkg="graph_maker" type="waypoint_to_graph_node.py" output="screen">
