@@ -30,8 +30,6 @@ class graph_navi_detour:
         self.graph_navi.wait_for_server();
         self.graph_navi_goal     = graph_naviGoal();
         self.graph_navi_Feedback = graph_naviFeedback();
-        #
-        
  
         rospy.loginfo("waikuped")
         #self.start();
@@ -95,10 +93,10 @@ class graph_navi_detour:
         rospy.loginfo("stop");
         
     def start(self,start_msg):
-        
+        rospy.loginfo("start navigation");
         self.graph_navi_goal.start      =start_msg.start
         self.graph_navi_goal.goal       =start_msg.goal
-        self.graph_navi_goal.checkPoint =start_msg.cheak_point
+        self.graph_navi_goal.checkPoint =start_msg.check_point
         self.graph_navi.send_goal(self.graph_navi_goal,done_cb=self.arrival_goal_CB,feedback_cb=self.arrival_node_CB);
 
 if __name__=="__main__":

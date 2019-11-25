@@ -1,5 +1,7 @@
 <launch>
     <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
-    <include file="$(find turtlebot_navigation)/launch/amcl_demo.launch"/>
+    <include file="$(find turtlebot_navigation)/launch/amcl_demo.launch">
+        <arg name="map_file" value="/home/shinjiro/catkin_ws/src/graph_navi/graph_navigation/map/cit2_3f/cit2_3f.yaml"/>
+    </include>
     <include file="$(find Graph_navi_with_detour)/launch/test_cit2_3f.launch"/>
 </launch>
