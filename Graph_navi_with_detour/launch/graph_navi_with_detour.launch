@@ -1,6 +1,7 @@
 <launch>
+    <arg name="map_file" default="$(find graph_navigation)/map/cit2_3f/cit2_3f.yaml"/>
     <arg name="graph_file" default="$(find graph_navigation)/graph/test_graph.yaml"/>
-    <arg name="edge_score" default="graph_navi_detour/edge_rate"/>
+    <arg name="edge_score_topic" default="graph_navi_detour/edge_rate"/>
 
     <!--グラフナビゲーションの起動-->
     <include file="$(find graph_navigation)/launch/graph_navigation.launch">
@@ -8,6 +9,6 @@
     </include>
     <!--迂回経路生成系-->
     <node name="graph_navi_detour" pkg="Graph_navi_with_detour" type="graph_navi_detour.py" output="screen">
-        <remap from="graph_navi_detour/edge_rate" to="$(arg edge_score)"/>
+        <remap from="graph_navi_detour/edge_rate" to="$(arg edge_score_topic)"/>
     </node>
 </launch>

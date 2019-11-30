@@ -80,6 +80,7 @@ class graph_navi_detour:
             rospy.loginfo("↓　send new goal");
             rospy.loginfo(start_msg);
             self.start(start_msg);#現在居る位置から再度ナビゲーションを開始
+            self.is_arrival_start=False;
             pass;
         #変わって無かったら初期のコストに戻しておく
         else:
